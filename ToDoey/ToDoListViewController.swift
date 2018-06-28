@@ -17,7 +17,7 @@ class ToDoListViewController: UITableViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    //MARK - TableView Datasource methods
+    // MARK - TableView Datasource methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
@@ -38,4 +38,30 @@ class ToDoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    // MARK - Add New Items
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        var textfield = UITextField()
+        
+        let alert = UIAlertController(title: "Add New Todo Item.", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add Item.", style: .default) { (action) in
+            // What will happen once user clicks add item button.
+            if textfield.text != ""{
+                self.itemArray.append(textfield.text!)
+                self.tableView.reloadData()
+            }else{
+                let tryAgainAlert = UIAlertController(title: "No Item Added.", message: "Please Try Again.", preferredStyle: .alert)
+                let tryAgainAction = UIAlertAction(title: "Try Again.", style: .default){ (action) in
+                }
+                tryAgainAlert.addAction(tryAgainAction)
+                self.present(tryAgainAlert, animated: true, completion: nil)
+            }
+        }
+        alert.addTextField { (alertTextfield) in
+            alertTextfield.placeholder = "Create New Item"
+            textfield = alertTextfield
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
 }
